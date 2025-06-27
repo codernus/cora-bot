@@ -3,21 +3,16 @@ const { Client, GatewayIntentBits, Collection, Events } = require("discord.js");
 const fs = require("node:fs");
 const path = require("node:path");
 
-// Buat instance client dengan intent minimal untuk command
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
 });
 
-// Koleksi untuk command
 client.commands = new Collection();
 
-// Load command handler
 require("./handlers/commandHandler")(client);
 
-// Load event handler
 require("./handlers/eventHandler")(client);
 
-// Handle command execution (fallback jika belum ditangani di eventHandler)
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
@@ -50,5 +45,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-// Jalankan bot
 client.login(process.env.DISCORD_TOKEN);
